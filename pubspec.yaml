@@ -57,7 +57,7 @@ dev_dependencies:
   flutter_launcher_icons: ^0.13.1
 
 flutter:
-  generate: true
+  # generate: true
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
