@@ -100,15 +100,16 @@ class CryptoService {
     return topLevelSeq.encodedBytes;
   }
 
-  SecureRandom genSecureRandom() {
-    final random = Random.secure();
-    final seed = List<int>.generate(32, (_) => random.nextInt(256));
-    final secureRandom = FortunaRandom()
-      ..seed(
-        KeyParameter(
-          Uint8List.fromList(seed),
-        ),
-      );
+  SecureRandom genSecureRandom([Uint8List? seed]) {
+    final secureRandom = FortunaRandom();
+
+    final seedBytes = seed ??
+        Uint8List.fromList(
+          List<int>.generate(32, (_) => Random.secure().nextInt(256)),
+        );
+
+    secureRandom.seed(KeyParameter(seedBytes));
+
     return secureRandom;
   }
 
@@ -160,10 +161,14 @@ class CryptoService {
     return engine.process(data);
   }
 
-  Uint8List doAESEncryption(Uint8List data, {required Uint8List key}) {
+  Uint8List doAESEncryption(
+    Uint8List data, {
+    required Uint8List key,
+    required Uint8List iv,
+  }) {
     final ivParams = ParametersWithIV(
       KeyParameter(key),
-      Uint8List.fromList(key.sublist(16, key.length)),
+      iv,
     );
 
     final engine = PaddedBlockCipher(_env.state.cryptoAesAg)
@@ -188,10 +193,14 @@ class CryptoService {
     return engine.process(data);
   }
 
-  Uint8List doAESDecryption(Uint8List data, {required Uint8List key}) {
+  Uint8List doAESDecryption(
+    Uint8List data, {
+    required Uint8List key,
+    required Uint8List iv,
+  }) {
     final ivParams = ParametersWithIV(
       KeyParameter(key),
-      Uint8List.fromList(key.sublist(16, key.length)),
+      iv,
     );
 
     final engine = PaddedBlockCipher(_env.state.cryptoAesAg)

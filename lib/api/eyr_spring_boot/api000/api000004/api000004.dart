@@ -9,7 +9,7 @@ part 'api000004.g.dart';
 class Api000004Req extends EYRSpringBootReq {
   @JsonKey(name: 'data')
   @JsonApi000004CryptoKey()
-  String data;
+  final String data;
 
   Api000004Req({
     required this.data,
@@ -31,10 +31,10 @@ class Api000004Req extends EYRSpringBootReq {
 class Api000004Res with EquatableMixin {
   @JsonKey(name: 'encryptedData')
   @JsonApi000004CryptoKey()
-  String encryptedData;
+  final String encryptedData;
 
   @JsonKey(name: 'decryptedData')
-  String decryptedData;
+  final String decryptedData;
 
   Api000004Res({
     required this.encryptedData,

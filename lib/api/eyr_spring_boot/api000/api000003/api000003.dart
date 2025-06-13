@@ -25,7 +25,7 @@ class Api000003Req extends EYRSpringBootReq {
 @JsonSerializable()
 class Api000003Res with EquatableMixin {
   @JsonKey(name: 'pk')
-  String pubKey;
+  final String pubKey;
 
   Api000003Res({
     required this.pubKey,
